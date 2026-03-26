@@ -3,320 +3,209 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EM385Templates.com - ENG Form 6206 AHA Generator</title>
+    <title>EM385Templates.com - USACE AHA Generator</title>
     <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: Arial, sans-serif; background: #f5f5f5; padding: 20px; }
-        .container { max-width: 900px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 15px rgba(0,0,0,0.1); }
-        h1 { color: #1a365d; text-align: center; margin-bottom: 5px; }
+        .container { max-width: 1000px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; }
+        h1 { color: #1a365d; text-align: center; }
         h2 { color: #666; text-align: center; font-size: 14px; margin-bottom: 20px; }
         
-        .form-section { background: #f8fafc; padding: 20px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #ed8936; }
+        .form-section { background: #f8fafc; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
         
-        label { display: block; font-weight: bold; margin-bottom: 5px; color: #333; }
-        input, select { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 6px; font-size: 14px; margin-bottom: 15px; }
-        input:focus, select:focus { border-color: #ed8936; outline: none; }
+        label { display: block; font-weight: bold; margin-bottom: 5px; }
+        input, select { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 6px; margin-bottom: 15px; }
         
         .row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         
-        .btn { background: #ed8936; color: white; padding: 15px 30px; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; margin: 10px 5px; }
-        .btn:hover { background: #dd6b20; }
+        .btn { background: #ed8936; color: white; padding: 15px 30px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin: 5px; }
         .btn-green { background: #38a169; }
-        .btn-green:hover { background: #2f855a; }
         
-        table { width: 100%; border-collapse: collapse; margin: 20px 0; border: 2px solid #333; }
-        th { background: #1a365d; color: white; padding: 12px; text-align: left; border: 1px solid #333; }
-        td { border: 1px solid #ccc; padding: 10px; background: #fff; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th { background: #1a365d; color: white; padding: 12px; text-align: left; }
+        td { border: 1px solid #ccc; padding: 10px; }
         
-        .rac { display: inline-block; padding: 4px 10px; border-radius: 4px; font-weight: bold; color: white; }
-        .rac-L { background: #38a169; }
-        .rac-M { background: #d69e2e; }
-        .rac-H { background: #dd6b20; }
-        .rac-E { background: #e53e3e; }
+        .rac-L { background: #38a169; color: white; padding: 4px 10px; border-radius: 4px; font-weight: bold; }
         
-        .rules { background: #e6fffa; border: 2px solid #38a169; padding: 15px; border-radius: 8px; margin: 20px 0; }
-        .rules h3 { color: #38a169; }
+        .division-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 20px 0; }
+        .division-btn { padding: 15px; border: 2px solid #ddd; border-radius: 8px; background: white; cursor: pointer; text-align: left; }
+        .division-btn:hover { border-color: #ed8936; background: #fff8f0; }
+        .division-btn.active { border-color: #ed8936; background: #ed8936; color: white; }
+        .division-btn .num { font-size: 24px; font-weight: bold; }
+        .division-btn .name { font-size: 11px; }
         
-        .activity-selector { background: #1a365d; color: white; padding: 20px; border-radius: 8px; margin: 20px 0; }
-        .activity-selector label { color: white; }
-        .activity-selector select { border: 3px solid #ed8936; }
-        
-        .footer { text-align: center; margin-top: 30px; color: #888; font-size: 12px; }
+        .footer { text-align: center; margin-top: 30px; color: #888; }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>ACTIVITY HAZARD ANALYSIS (AHA)</h1>
-        <h2>ENG FORM 6206 (Sep 2024) | EM 385-1-1 Compliant</h2>
+        <h2>ENG FORM 6206 | EM 385-1-1 Compliant</h2>
         
-        <div class="rules">
-            <h3>📋 Development Rule</h3>
-            <p><strong>When controls are properly applied, they MUST reduce the RAC to LOW (L).</strong></p>
-            <p>All controls listed below are designed to achieve RAC = L when properly implemented.</p>
+        <div class="form-section">
+            <h3>Select CSI Division (Gadzoom Format)</h3>
+            <div class="division-grid">
+                <button class="division-btn" onclick="selectDivision('01','General Requirements')"><span class="num">01</span><br><span class="name">General Requirements</span></button>
+                <button class="division-btn" onclick="selectDivision('02','Existing Conditions')"><span class="num">02</span><br><span class="name">Existing Conditions</span></button>
+                <button class="division-btn" onclick="selectDivision('03','Concrete')"><span class="num">03</span><br><span class="name">Concrete</span></button>
+                <button class="division-btn" onclick="selectDivision('04','Masonry')"><span class="num">04</span><br><span class="name">Masonry</span></button>
+                <button class="division-btn" onclick="selectDivision('05','Metals')"><span class="num">05</span><br><span class="name">Metals</span></button>
+                <button class="division-btn" onclick="selectDivision('06','Wood')"><span class="num">06</span><br><span class="name">Wood, Plastics, Composites</span></button>
+                <button class="division-btn" onclick="selectDivision('07','Thermal')"><span class="num">07</span><br><span class="name">Thermal & Moisture</span></button>
+                <button class="division-btn" onclick="selectDivision('08','Openings')"><span class="num">08</span><br><span class="name">Openings</span></button>
+                <button class="division-btn" onclick="selectDivision('09','Finishes')"><span class="num">09</span><br><span class="name">Finishes</span></button>
+                <button class="division-btn" onclick="selectDivision('10','Specialties')"><span class="num">10</span><br><span class="name">Specialties</span></button>
+                <button class="division-btn" onclick="selectDivision('11','Equipment')"><span class="num">11</span><br><span class="name">Equipment</span></button>
+                <button class="division-btn" onclick="selectDivision('12','Furnishings')"><span class="num">12</span><br><span class="name">Furnishings</span></button>
+                <button class="division-btn" onclick="selectDivision('21','Fire Suppression')"><span class="num">21</span><br><span class="name">Fire Suppression</span></button>
+                <button class="division-btn" onclick="selectDivision('22','Plumbing')"><span class="num">22</span><br><span class="name">Plumbing</span></button>
+                <button class="division-btn" onclick="selectDivision('23','HVAC')"><span class="num">23</span><br><span class="name">HVAC</span></button>
+                <button class="division-btn" onclick="selectDivision('26','Electrical')"><span class="num">26</span><br><span class="name">Electrical</span></button>
+                <button class="division-btn" onclick="selectDivision('31','Earthwork')"><span class="num">31</span><br><span class="name">Earthwork</span></button>
+                <button class="division-btn" onclick="selectDivision('33','Utilities')"><span class="num">33</span><br><span class="name">Utilities</span></button>
+                <button class="division-btn" onclick="selectDivision('SPECIAL','Operations')"><span class="num">SPECIAL</span><br><span class="name">Operations</span></button>
+                <button class="division-btn" onclick="selectDivision('EQUIP','Equipment')"><span class="num">EQUIP</span><br><span class="name">Construction Equipment</span></button>
+            </div>
         </div>
         
         <div class="form-section">
-            <label>Select Activity / Feature of Work *</label>
-            <select onchange="loadActivity(this.value)">
-                <option value="">-- Select an Activity to Generate AHA --</option>
-                <option value="excavation">⛏️ Excavation - Trenching & Shoring</option>
-                <option value="scaffolding">🏗️ Scaffolding - Mobile & Fixed</option>
-                <option value="electrical">⚡ Electrical Work</option>
-                <option value="confined-space">🔒 Confined Space Entry</option>
-                <option value="crane">🏗️ Crane & Rigging Operations</option>
-                <option value="fall-protection">⬇️ Fall Protection Plan</option>
-                <option value="fire-protection">🔥 Fire Protection & Hot Work</option>
-                <option value="traffic">🚧 Traffic Control</option>
-            </select>
-        </div>
-        
-        <div class="form-section">
             <div class="row">
-                <div>
-                    <label>1. Activity/Work Task</label>
-                    <input type="text" id="activity" readonly placeholder="Select activity above">
-                </div>
-                <div>
-                    <label>2. Contract Number</label>
-                    <input type="text" id="contractNum" placeholder="W912DX-26-C-XXXX">
-                </div>
+                <div><label>Selected Division</label><input type="text" id="division" readonly></div>
+                <div><label>Contract Number</label><input type="text" id="contractNum" placeholder="W912DX-26-C-XXXX"></div>
             </div>
             <div class="row">
-                <div>
-                    <label>3. Project Name</label>
-                    <input type="text" id="projectName" placeholder="Project Name">
-                </div>
-                <div>
-                    <label>4. Project Location</label>
-                    <input type="text" id="projectLocation" placeholder="City, State">
-                </div>
+                <div><label>Project Name</label><input type="text" id="projectName" placeholder="Project Name"></div>
+                <div><label>Location</label><input type="text" id="projectLocation" placeholder="City, State"></div>
             </div>
             <div class="row">
-                <div>
-                    <label>5. Contractor Name & Address</label>
-                    <input type="text" id="contractorName" placeholder="Company Name">
-                </div>
-                <div>
-                    <label>6. Contractor Phone</label>
-                    <input type="text" id="contractorPhone" placeholder="(XXX) XXX-XXXX">
-                </div>
+                <div><label>Contractor</label><input type="text" id="contractorName"></div>
+                <div><label>Phone</label><input type="text" id="contractorPhone"></div>
             </div>
             <div class="row">
-                <div>
-                    <label>7. AHA Prepared By (Name/Title)</label>
-                    <input type="text" id="preparedBy" placeholder="Name, Title">
-                </div>
-                <div>
-                    <label>8. Date</label>
-                    <input type="text" id="preparedDate" placeholder="MM/DD/YYYY">
-                </div>
-            </div>
-            <div class="row">
-                <div>
-                    <label>9. AHA Accepted By (Name/Title)</label>
-                    <input type="text" id="acceptedBy" placeholder="Name, Title">
-                </div>
-                <div>
-                    <label>10. Date</label>
-                    <input type="text" id="acceptedDate" placeholder="MM/DD/YYYY">
-                </div>
+                <div><label>Prepared By</label><input type="text" id="preparedBy"></div>
+                <div><label>Date</label><input type="text" id="preparedDate"></div>
             </div>
         </div>
         
-        <h3>Hazard Analysis Table (ENG Form 6206)</h3>
+        <h3>AHA Steps for Selected Division</h3>
         <table>
-            <thead>
-                <tr>
-                    <th style="width:50px">Step#</th>
-                    <th style="width:150px">Work Step</th>
-                    <th style="width:200px">Potential Hazards</th>
-                    <th style="width:200px">Controls (Reduces to L)</th>
-                    <th style="width:60px">RAC</th>
-                </tr>
-            </thead>
-            <tbody id="ahaTable">
-                <tr><td colspan="5" style="text-align:center;padding:30px;color:#888;">👆 Select an activity above to automatically generate AHA steps</td></tr>
-            </tbody>
+            <thead><tr><th>Step#</th><th>Work Step</th><th>Hazards</th><th>Controls</th><th>RAC</th></tr></thead>
+            <tbody id="ahaTable"><tr><td colspan="5" style="text-align:center">Select a division above</td></tr></tbody>
         </table>
         
-        <div style="text-align:center;margin:30px 0;">
-            <button class="btn" onclick="loadActivity(document.querySelector('select').value)">🔄 Generate AHA</button>
-            <button class="btn btn-green" onclick="downloadPDF()">📥 Download PDF</button>
+        <div style="text-align:center;margin:20px 0;">
+            <button class="btn" onclick="downloadPDF()">📥 Download PDF</button>
         </div>
         
-        <div class="footer">
-            <p>Reference: EM 385-1-1 (2024) | Generated by EM385Templates.com</p>
-            <p>This format matches ENG Form 6206 for USACE submittal</p>
-        </div>
+        <div class="footer">EM385Templates.com | ENG Form 6206</div>
     </div>
     
     <script>
-        // AHA Data - All with controls that reduce to L
-        const ahaData = {
-            'excavation': { name: 'Excavation - Trenching & Shoring', steps: [
-                {step:'1',work:'Contact 811 utility locate',hazard:'Striking underground utilities',control:'Call 811; verify marked; tolerance zone',rac:'L'},
-                {step:'2',work:'Soil assessment (GMM)',hazard:'Cave-in, soil failure',control:'Competent person classifies soil',rac:'L'},
-                {step:'3',work:'Install trench box/shoring',hazard:'Cave-in during setup',control:'Install before workers enter',rac:'L'},
-                {step:'4',work:'Excavate with equipment',hazard:'Cave-in, struck-by',control:'Spoil pile 2ft+; safe distance',rac:'L'},
-                {step:'5',work:'Workers enter excavation',hazard:'Cave-in, falls',control:'Trench box; ladder within 25ft',rac:'L'},
-                {step:'6',work:'Monitor atmosphere',hazard:'Oxygen deficiency',control:'Air testing; ventilation',rac:'L'},
-                {step:'7',work:'Backfill',hazard:'Struck-by equipment',control:'Workers exit first; spotter',rac:'L'}
+        const divisionData = {
+            '01': {name:'General Requirements',steps:[
+                {s:'1',w:'Mobilize to site',h:'Struck-by, slips',c:'PPE, housekeeping',r:'L'},
+                {s:'2',w:'Install temporary facilities',h:'Electrical, falls',c:'GFCI, guardrails',r:'L'},
+                {s:'3',w:'Provide safety orientation',h:'All hazards',c:'Site safety plan review',r:'L'}
             ]},
-            'scaffolding': { name: 'Scaffolding - Mobile & Fixed', steps: [
-                {step:'1',work:'Setup scaffold area',hazard:'Struck-by, trips',control:'Clear area; designated paths',rac:'L'},
-                {step:'2',work:'Assemble base sections',hazard:'Pinch points',control:'Proper lifting; gloves',rac:'L'},
-                {step:'3',work:'Install planking',hazard:'Falls',control:'100% planked; secured',rac:'L'},
-                {step:'4',work:'Install guardrails',hazard:'Falls during install',control:'Safe surface OR PFAS',rac:'L'},
-                {step:'5',work:'Inspect scaffold',hazard:'Structural failure',control:'Competent person; green tag',rac:'L'},
-                {step:'6',work:'Tag scaffold',hazard:'Unsafe use',control:'Green/Red tag',rac:'L'}
+            '02': {name:'Existing Conditions',steps:[
+                {s:'1',w:'Survey existing conditions',h:'Structural, environmental',c:'Competent person, PPE',r:'L'},
+                {s:'2',w:'Document hazards',h:'Asbestos, lead, utilities',c:'Survey, clearance',r:'L'},
+                {s:'3',w:'Protect existing structures',h:'Structural damage',c:' shoring, barriers',r:'L'}
             ]},
-            'electrical': { name: 'Electrical Work', steps: [
-                {step:'1',work:'De-energize circuits',hazard:'Electrocution',control:'Lockout/Tagout; verified',rac:'L'},
-                {step:'2',work:'Test voltage',hazard:'Electrocution',control:'Rated tester; verify',rac:'L'},
-                {step:'3',work:'Install grounds',hazard:'Shock',control:'Ground before energize',rac:'L'},
-                {step:'4',work:'Work energized (if req)',hazard:'Electrocution',control:'Qualified person; PPE',rac:'L'},
-                {step:'5',work:'Remove grounds',hazard:'Electrocution',control:'All clear; reverse order',rac:'L'}
+            '03': {name:'Concrete',steps:[
+                {s:'1',w:'Formwork setup',h:'Falls, crushing',c:'Proper installation, PPE',r:'L'},
+                {s:'2',w:'Rebar installation',h:'Lacerations, falls',c:'Gloves, harness',r:'L'},
+                {s:'3',w:'Concrete pour',h:'Falls, struck-by',c:'Guardrails, PPE',r:'L'},
+                {s:'4',w:'Cure concrete',h:'Slip hazards',c:'Non-slip surface',r:'L'}
             ]},
-            'confined-space': { name: 'Confined Space Entry', steps: [
-                {step:'1',work:'Identify space',hazard:'Unrecognized',control:'Competent person; signage',rac:'L'},
-                {step:'2',work:'Atmospheric testing',hazard:'Toxic/O2 deficiency',control:'Test O2/LEL/CO/H2S',rac:'L'},
-                {step:'3',work:'Ventilate',hazard:'Atmospheric',control:'Continuous ventilation',rac:'L'},
-                {step:'4',work:'Establish comm',hazard:'Emergency',control:'Voice/radio; rescue plan',rac:'L'},
-                {step:'5',work:'Post attendant',hazard:'Unmonitored',control:'Dedicated attendant',rac:'L'},
-                {step:'6',work:'Entry/work',hazard:'Multiple',control:'PPE; permits',rac:'L'}
+            '05': {name:'Metals',steps:[
+                {s:'1',w:'Steel erection',h:'Falls, struck-by',c:'Safety harness, crane inspection',r:'L'},
+                {s:'2',w:'Welding/cutting',h:'Fire, burns',c:'Fire watch, PPE',r:'L'},
+                {s:'3',w:'Structural steel connection',h:'Falls',c:'PFAS, guardrails',r:'L'}
             ]},
-            'crane': { name: 'Crane & Rigging Operations', steps: [
-                {step:'1',work:'Site assessment',hazard:'Tip-over',control:'Ground test; clear overhead',rac:'L'},
-                {step:'2',work:'Set up crane',hazard:'Tip-over',control:'Outriggers; level; tagged',rac:'L'},
-                {step:'3',work:'Rig load',hazard:'Struck-by',control:'Qualified rigger; inspection',rac:'L'},
-                {step:'4',work:'Signal operator',hazard:'Struck-by',control:'Qualified signal; clear',rac:'L'},
-                {step:'5',work:'Lift and move',hazard:'Struck-by',control:'Clear swing; load chart',rac:'L'},
-                {step:'6',work:'Set/secure load',hazard:'Struck-by',control:'Stable; chocked',rac:'L'}
+            '21': {name:'Fire Suppression',steps:[
+                {s:'1',w:'Install fire suppression piping',h:'Falls, burns',c:'PPE, proper lifting',r:'L'},
+                {s:'2',w:'Connect to water supply',h:'Flooding',c:'Valve control, PPE',r:'L'},
+                {s:'3',w:'Test system',h:'Pressure release',c:'Pressure gauges, PPE',r:'L'}
             ]},
-            'fall-protection': { name: 'Fall Protection Plan', steps: [
-                {step:'1',work:'Identify fall hazards',hazard:'Falls >6ft',control:'Survey all hazards',rac:'L'},
-                {step:'2',work:'Select system',hazard:'Inadequate',control:'Guardrail/net/PFAS',rac:'L'},
-                {step:'3',work:'Install guardrails',hazard:'Falls during install',control:'Safe surface OR PFAS',rac:'L'},
-                {step:'4',work:'Setup PFAS',hazard:'Fall',control:'Harness; anchor; lanyard',rac:'L'},
-                {step:'5',work:'Inspect equipment',hazard:'Failure',control:'Qualified inspection',rac:'L'},
-                {step:'6',work:'Train workers',hazard:'Improper use',control:'Training; rescue',rac:'L'}
+            '22': {name:'Plumbing',steps:[
+                {s:'1',w:'Install piping',h:'Falls, cuts',c:'PPE, proper scaffolding',r:'L'},
+                {s:'2',w:'Confined space entry',h:'Toxic atmosphere',c:'Air monitoring, attendant',r:'L'},
+                {s:'3',w:'Pipe pressure test',h:'High pressure',c:'Relief valves, PPE',r:'L'}
             ]},
-            'fire-protection': { name: 'Fire Protection & Hot Work', steps: [
-                {step:'1',work:'Identify fire hazards',hazard:'Fire',control:'Survey; remove hazards',rac:'L'},
-                {step:'2',work:'Hot work permit',hazard:'Fire',control:'Written permit; fire watch',rac:'L'},
-                {step:'3',work:'Setup fire watch',hazard:'Fire',control:'Trained watcher; extinguishers',rac:'L'},
-                {step:'4',work:'Perform hot work',hazard:'Fire/burns',control:'Designated area; PPE',rac:'L'},
-                {step:'5',work:'Fire watch duration',hazard:'Delayed fire',control:'1 hour after; monitor',rac:'L'}
+            '23': {name:'HVAC',steps:[
+                {s:'1',w:'Install ductwork',h:'Falls, cuts',c:'PPE, aerial lift',r:'L'},
+                {s:'2',w:'Refrigerant handling',h:'Toxic exposure',c:'EPA certification, PPE',r:'L'},
+                {s:'3',w:'Electrical connections',h:'Electrocution',c:'Lockout/tagout',r:'L'}
             ]},
-            'traffic': { name: 'Traffic Control', steps: [
-                {step:'1',work:'Identify hazards',hazard:'Struck-by',control:'Survey traffic',rac:'L'},
-                {step:'2',work:'Develop plan',hazard:'Confusion',control:'MUTCD compliant',rac:'L'},
-                {step:'3',work:'Install signage',hazard:'Setup',control:'MUTCD signs; high-vis',rac:'L'},
-                {step:'4',work:'Setup flaggers',hazard:'Struck-by',control:'Trained; PPE; paddle',rac:'L'},
-                {step:'5',work:'Channelize traffic',hazard:'Intrusion',control:'Barriers; cones; buffer',rac:'L'}
+            '26': {name:'Electrical',steps:[
+                {s:'1',w:'Install conduit',h:'Falls, struck-by',c:'PPE, scaffolding',r:'L'},
+                {s:'2',w:'Pull wire',h:'Cuts, electrical',c:'Gloves, lockout',r:'L'},
+                {s:'3',w:'Panel connection',h:'Electrocution',c:'Lockout/tagout, PPE',r:'L'},
+                {s:'4',w:'Test systems',h:'Electrical shock',c:'Proper testing, PPE',r:'L'}
+            ]},
+            '31': {name:'Earthwork',steps:[
+                {s:'1',w:'Clear and grub',h:'Struck-by equipment',c:'Spotters, PPE',r:'L'},
+                {s:'2',w:'Excavation',h:'Cave-in',c:'Shoring, competent person',r:'L'},
+                {s:'3',w:'Backfill/compaction',h:'Equipment rollover',c:'Ground stability, operators',r:'L'}
+            ]},
+            '33': {name:'Utilities',steps:[
+                {s:'1',w:'Utility locate',h:'Striking utilities',c:'811 call, verification',r:'L'},
+                {s:'2',w:'Excavation',h:'Cave-in, utility strike',c:'Proximity limits, PPE',r:'L'},
+                {s:'3',w:'Pipe installation',h:'Falls, strikes',c:'Shoring, spotters',r:'L'},
+                {s:'4',w:'Testing',h:'Pressure release',c:'Relief, PPE',r:'L'}
+            ]},
+            'SPECIAL': {name:'Operations',steps:[
+                {s:'1',w:'Identify operation scope',h:'Various',c:'Site specific AHA',r:'L'},
+                {s:'2',w:'Implement controls',h:'Operation specific',c:'Controls per AHA',r:'L'},
+                {s:'3',w:'Monitor conditions',h:'Dynamic hazards',c:'Continuous monitoring',r:'L'}
+            ]},
+            'EQUIP': {name:'Construction Equipment',steps:[
+                {s:'1',w:'Equipment mobilization',h:'Struck-by, pinch points',c:'Spotters, PPE',r:'L'},
+                {s:'2',w:'Equipment operation',h:'Rollovers, struck-by',c:'ROPS, seat belts',r:'L'},
+                {s:'3',w:'Refueling',h:'Fire, spills',c:'No smoking, spill kit',r:'L'},
+                {s:'4',w:'Maintenance',h:'Pinch points, burns',c:'Lockout/tagout, PPE',r:'L'}
             ]}
         };
         
-        function loadActivity(activity) {
-            const data = ahaData[activity];
+        function selectDivision(div, name) {
+            document.getElementById('division').value = div + ' - ' + name;
+            const data = divisionData[div];
             const tbody = document.getElementById('ahaTable');
-            const activityInput = document.getElementById('activity');
-            
-            if (!data) {
-                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:30px;color:#888;">👆 Select an activity above to automatically generate AHA steps</td></tr>';
-                return;
-            }
-            
-            // Set activity name
-            activityInput.value = data.name;
-            
-            // Build table
             tbody.innerHTML = data.steps.map(s => 
-                `<tr>
-                    <td>${s.step}</td>
-                    <td>${s.work}</td>
-                    <td>${s.hazard}</td>
-                    <td>${s.control}</td>
-                    <td><span class="rac rac-${s.rac}">${s.rac}</span></td>
-                </tr>`
+                `<tr><td>${s.s}</td><td>${s.w}</td><td>${s.h}</td><td>${s.c}</td><td><span class="rac-L">${s.r}</span></td></tr>`
             ).join('');
         }
         
         async function downloadPDF() {
-            const { PDFDocument, rgb, StandardFonts } = PDFLib;
-            const pdfDoc = await PDFDocument.create();
-            const page = pdfDoc.addPage([612, 792]);
-            const font = await pdfDoc.embedFont(StandardFonts.TimesRoman);
-            const fontBold = await pdfDoc.embedFont(StandardFonts.TimesRomanBold);
+            const {PDFDocument, rgb, StandardFonts} = PDFLib;
+            const pdf = await PDFDocument.create();
+            const page = pdf.addPage([612,792]);
+            const font = await pdf.embedFont(StandardFonts.TimesRoman);
+            const fbold = await pdf.embedFont(StandardFonts.TimesRomanBold);
             
-            // Get data
-            const activity = document.getElementById('activity').value || '';
-            const contractNum = document.getElementById('contractNum').value || '';
-            const projectName = document.getElementById('projectName').value || '';
-            const projectLocation = document.getElementById('projectLocation').value || '';
-            const contractorName = document.getElementById('contractorName').value || '';
-            const contractorPhone = document.getElementById('contractorPhone').value || '';
-            const preparedBy = document.getElementById('preparedBy').value || '';
-            const preparedDate = document.getElementById('preparedDate').value || '';
-            const acceptedBy = document.getElementById('acceptedBy').value || '';
-            const acceptedDate = document.getElementById('acceptedDate').value || '';
+            page.drawText('ACTIVITY HAZARD ANALYSIS',{x:150,y:750,size:14,font:fbold});
+            page.drawText('ENG FORM 6206',{x:230,y:730,size:10,font});
+            page.drawText('Division: '+document.getElementById('division').value,{x:20,y:700,size:10});
+            page.drawText('Contract: '+document.getElementById('contractNum').value,{x:350,y:700,size:10});
             
-            // Title
-            page.drawText('ACTIVITY HAZARD ANALYSIS (AHA)', { x: 150, y: 750, size: 14, font: fontBold, color: rgb(0.1, 0.21, 0.36) });
-            page.drawText('ENG FORM 6206 (Sep 2024)', { x: 220, y: 730, size: 10, font: font });
-            page.drawText('Reference: EM 385-1-1 (2024)', { x: 230, y: 715, size: 9, font: font });
-            
-            let y = 680;
-            const addLine = (text, x, size=9, bold=false) => page.drawText(text, { x, y, size, font: bold ? fontBold : font });
-            
-            addLine('1. ACTIVITY/WORK TASK:', 20, 9, true); addLine('2. CONTRACT NUMBER:', 350, 9, true);
-            y -= 15; addLine(activity, 20, 10); addLine(contractNum, 350, 10);
-            y -= 20;
-            
-            addLine('3. PROJECT NAME:', 20, 9, true); addLine('4. PROJECT LOCATION:', 350, 9, true);
-            y -= 15; addLine(projectName, 20, 10); addLine(projectLocation, 350, 10);
-            y -= 20;
-            
-            addLine('5. CONTRACTOR:', 20, 9, true); addLine('6. PHONE:', 350, 9, true);
-            y -= 15; addLine(contractorName, 20, 10); addLine(contractorPhone, 350, 10);
-            y -= 20;
-            
-            addLine('7. PREPARED BY:', 20, 9, true); addLine('8. DATE:', 200, 9, true);
-            addLine('9. ACCEPTED BY:', 350, 9, true); addLine('10. DATE:', 530, 9, true);
-            y -= 15;
-            addLine(preparedBy, 20, 10); addLine(preparedDate, 200, 10);
-            addLine(acceptedBy, 350, 10); addLine(acceptedDate, 530, 10);
-            y -= 30;
-            
-            // Table header
-            page.drawRectangle({ x: 20, y: y-20, width: 572, height: 20, color: rgb(0.1, 0.21, 0.36) });
-            addLine('Step#', 25, 8); addLine('Work Step', 60, 8); addLine('Hazards', 200, 8); addLine('Controls', 370, 8); addLine('RAC', 545, 8);
-            y -= 25;
-            
-            // Get steps
-            const activityKey = document.getElementById('activitySelect')?.value || Object.keys(ahaData)[0];
-            const data = ahaData[activityKey];
-            if (data) {
-                data.steps.forEach((s, i) => {
-                    let racColor = rgb(0.22, 0.63, 0.41); // L
-                    page.drawRectangle({ x: 20, y: y-18, width: 572, height: 18, color: i%2===0 ? rgb(0.95,0.95,0.95) : rgb(1,1,1) });
-                    page.drawRectangle({ x: 540, y: y-18, width: 52, height: 18, color: racColor });
-                    addLine(s.step, 25, 8); addLine(s.work.substring(0,25), 60, 7);
-                    addLine(s.hazard.substring(0,30), 200, 7); addLine(s.control.substring(0,30), 370, 6);
-                    addLine(s.rac, 555, 9, true);
-                    y -= 20;
+            const div = document.querySelector('.division-btn.active')?.onclick?.toString().match(/'(.*?)'/)?.[1];
+            if(div && divisionData[div]){
+                let y=660;
+                divisionData[div].steps.forEach((s,i)=>{
+                    page.drawRectangle({x:20,y:y-15,width:572,height:18,color:i%2?rgb(1,1,1):rgb(0.95,0.95,0.95)});
+                    page.drawRectangle({x:540,y:y-15,width:52,height:18,color:rgb(0.22,0.63,0.41)});
+                    page.drawText(s.s,{x:25,y:y,size:8});page.drawText(s.w,{x:60,y,size:8});
+                    page.drawText(s.h,{x:200,y,size:8});page.drawText(s.c,{x:370,y,size:8});
+                    page.drawText(s.r,{x:555,y,size:9,font:fbold,color:rgb(1,1,1)});
+                    y-=20;
                 });
             }
-            
-            page.drawText('Generated by EM385Templates.com', { x: 180, y: 30, size: 8, font });
-            
-            const pdfBytes = await pdfDoc.save();
-            const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = 'AHA_ENG_Form_6206.pdf';
-            link.click();
+            page.drawText('EM385Templates.com',{x:220,y:30,size:8,font});
+            const pdfBytes=await pdf.save();
+            const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([pdfBytes],{type:'application/pdf'}));
+            a.download='AHA.pdf';a.click();
         }
     </script>
 </body>
