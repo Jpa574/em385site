@@ -3,117 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EM385Templates.com - USACE ENG Form 6206 AHA Generator</title>
+    <title>EM385Templates.com - ENG Form 6206 AHA Generator</title>
     <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: Arial, sans-serif; background: #f0f0f0; padding: 20px; }
-        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        h1 { color: #1a365d; text-align: center; margin-bottom: 10px; }
-        h2 { color: #1a365d; text-align: center; font-size: 18px; margin-bottom: 5px; }
-        .subtitle { text-align: center; color: #666; margin-bottom: 20px; }
+        body { font-family: Arial, sans-serif; background: #f5f5f5; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 15px rgba(0,0,0,0.1); }
+        h1 { color: #1a365d; text-align: center; margin-bottom: 5px; }
+        h2 { color: #666; text-align: center; font-size: 14px; margin-bottom: 20px; }
         
-        .form-section { background: #f7f9fc; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
-        .form-section h3 { color: #1a365d; margin-bottom: 15px; border-bottom: 2px solid #ed8936; padding-bottom: 5px; }
+        .form-section { background: #f8fafc; padding: 20px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #ed8936; }
         
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; font-weight: bold; margin-bottom: 5px; color: #333; }
-        .form-group input, .form-group select { width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 4px; font-size: 14px; }
-        .form-group input:focus, .form-group select:focus { border-color: #ed8936; outline: none; }
+        label { display: block; font-weight: bold; margin-bottom: 5px; color: #333; }
+        input, select { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 6px; font-size: 14px; margin-bottom: 15px; }
+        input:focus, select:focus { border-color: #ed8936; outline: none; }
         
-        .btn { background: #ed8936; color: white; padding: 12px 24px; border: none; border-radius: 6px; font-size: 16px; cursor: pointer; margin: 5px; }
+        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        
+        .btn { background: #ed8936; color: white; padding: 15px 30px; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; margin: 10px 5px; }
         .btn:hover { background: #dd6b20; }
-        .btn-download { background: #38a169; }
-        .btn-download:hover { background: #2f855a; }
+        .btn-green { background: #38a169; }
+        .btn-green:hover { background: #2f855a; }
         
-        .activity-select { width: 100%; padding: 15px; font-size: 16px; border: 2px solid #1a365d; border-radius: 4px; margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; border: 2px solid #333; }
+        th { background: #1a365d; color: white; padding: 12px; text-align: left; border: 1px solid #333; }
+        td { border: 1px solid #ccc; padding: 10px; background: #fff; }
         
-        table { width: 100%; border-collapse: collapse; margin: 15px 0; }
-        th { background: #1a365d; color: white; padding: 10px; text-align: left; border: 1px solid #333; }
-        td { border: 1px solid #ddd; padding: 8px; font-size: 12px; }
+        .rac { display: inline-block; padding: 4px 10px; border-radius: 4px; font-weight: bold; color: white; }
+        .rac-L { background: #38a169; }
+        .rac-M { background: #d69e2e; }
+        .rac-H { background: #dd6b20; }
+        .rac-E { background: #e53e3e; }
         
-        .rac-E { background: #e53e3e; color: white; padding: 2px 8px; border-radius: 3px; font-weight: bold; }
-        .rac-H { background: #dd6b20; color: white; padding: 2px 8px; border-radius: 3px; font-weight: bold; }
-        .rac-M { background: #d69e2e; color: white; padding: 2px 8px; border-radius: 3px; font-weight: bold; }
-        .rac-L { background: #38a169; color: white; padding: 2px 8px; border-radius: 3px; font-weight: bold; }
+        .rules { background: #e6fffa; border: 2px solid #38a169; padding: 15px; border-radius: 8px; margin: 20px 0; }
+        .rules h3 { color: #38a169; }
         
-        .note { background: #e6fffa; border: 2px solid #38a169; padding: 15px; border-radius: 8px; margin: 20px 0; }
-        .note h4 { color: #38a169; margin-bottom: 10px; }
+        .activity-selector { background: #1a365d; color: white; padding: 20px; border-radius: 8px; margin: 20px 0; }
+        .activity-selector label { color: white; }
+        .activity-selector select { border: 3px solid #ed8936; }
         
-        .footer { text-align: center; margin-top: 30px; color: #666; font-size: 12px; }
+        .footer { text-align: center; margin-top: 30px; color: #888; font-size: 12px; }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>ACTIVITY HAZARD ANALYSIS (AHA)</h1>
-        <h2>ENG FORM 6206 (Sep 2024)</h2>
-        <p class="subtitle">EM 385-1-1 Compliant | USACE Official Format</p>
+        <h2>ENG FORM 6206 (Sep 2024) | EM 385-1-1 Compliant</h2>
         
-        <div class="note">
-            <h4>📋 AHA Development Rules</h4>
-            <p><strong>When controls are properly applied, they MUST reduce the RAC to LOW (L)</strong></p>
-            <p>Each control listed below is designed to bring the RAC to L when properly implemented.</p>
+        <div class="rules">
+            <h3>📋 Development Rule</h3>
+            <p><strong>When controls are properly applied, they MUST reduce the RAC to LOW (L).</strong></p>
+            <p>All controls listed below are designed to achieve RAC = L when properly implemented.</p>
         </div>
         
         <div class="form-section">
-            <h3>Project Information</h3>
-            <div class="form-row">
-                <div class="form-group">
-                    <label>1. ACTIVITY/WORK TASK *</label>
-                    <input type="text" id="activity" placeholder="e.g., Excavation - Trenching & Shoring">
-                </div>
-                <div class="form-group">
-                    <label>2. CONTRACT NUMBER *</label>
-                    <input type="text" id="contractNum" placeholder="e.g., W912DX-26-C-0012">
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label>3. PROJECT NAME *</label>
-                    <input type="text" id="projectName" placeholder="Project Name">
-                </div>
-                <div class="form-group">
-                    <label>4. PROJECT LOCATION *</label>
-                    <input type="text" id="projectLocation" placeholder="City, State">
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label>5. CONTRACTOR NAME & ADDRESS *</label>
-                    <input type="text" id="contractorName" placeholder="Company Name & Address">
-                </div>
-                <div class="form-group">
-                    <label>6. CONTRACTOR PHONE</label>
-                    <input type="text" id="contractorPhone" placeholder="(XXX) XXX-XXXX">
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label>7. AHA PREPARED BY (Name/Title) *</label>
-                    <input type="text" id="preparedBy" placeholder="Name, Title">
-                </div>
-                <div class="form-group">
-                    <label>8. DATE *</label>
-                    <input type="text" id="preparedDate" placeholder="MM/DD/YYYY">
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label>9. AHA ACCEPTED BY (Name/Title) *</label>
-                    <input type="text" id="acceptedBy" placeholder="Name, Title">
-                </div>
-                <div class="form-group">
-                    <label>10. DATE *</label>
-                    <input type="text" id="acceptedDate" placeholder="MM/DD/YYYY">
-                </div>
-            </div>
-        </div>
-        
-        <div class="form-section">
-            <h3>Select Activity Type</h3>
-            <select id="activitySelect" class="activity-select" onchange="generateAHA()">
-                <option value="">-- Select Activity to Generate AHA Steps --</option>
+            <label>Select Activity / Feature of Work *</label>
+            <select onchange="loadActivity(this.value)">
+                <option value="">-- Select an Activity to Generate AHA --</option>
                 <option value="excavation">⛏️ Excavation - Trenching & Shoring</option>
                 <option value="scaffolding">🏗️ Scaffolding - Mobile & Fixed</option>
                 <option value="electrical">⚡ Electrical Work</option>
@@ -126,133 +72,185 @@
         </div>
         
         <div class="form-section">
-            <h3>Hazard Analysis Table</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th style="width:40px">Step #</th>
-                        <th style="width:150px">Work Step</th>
-                        <th style="width:180px">Potential Hazards</th>
-                        <th style="width:180px">Controls (Must reduce to L)</th>
-                        <th style="width:50px">RAC</th>
-                    </tr>
-                </thead>
-                <tbody id="ahaTable">
-                    <tr><td colspan="5" style="text-align:center;padding:20px;">Select an activity above to generate AHA steps</td></tr>
-                </tbody>
-            </table>
+            <div class="row">
+                <div>
+                    <label>1. Activity/Work Task</label>
+                    <input type="text" id="activity" readonly placeholder="Select activity above">
+                </div>
+                <div>
+                    <label>2. Contract Number</label>
+                    <input type="text" id="contractNum" placeholder="W912DX-26-C-XXXX">
+                </div>
+            </div>
+            <div class="row">
+                <div>
+                    <label>3. Project Name</label>
+                    <input type="text" id="projectName" placeholder="Project Name">
+                </div>
+                <div>
+                    <label>4. Project Location</label>
+                    <input type="text" id="projectLocation" placeholder="City, State">
+                </div>
+            </div>
+            <div class="row">
+                <div>
+                    <label>5. Contractor Name & Address</label>
+                    <input type="text" id="contractorName" placeholder="Company Name">
+                </div>
+                <div>
+                    <label>6. Contractor Phone</label>
+                    <input type="text" id="contractorPhone" placeholder="(XXX) XXX-XXXX">
+                </div>
+            </div>
+            <div class="row">
+                <div>
+                    <label>7. AHA Prepared By (Name/Title)</label>
+                    <input type="text" id="preparedBy" placeholder="Name, Title">
+                </div>
+                <div>
+                    <label>8. Date</label>
+                    <input type="text" id="preparedDate" placeholder="MM/DD/YYYY">
+                </div>
+            </div>
+            <div class="row">
+                <div>
+                    <label>9. AHA Accepted By (Name/Title)</label>
+                    <input type="text" id="acceptedBy" placeholder="Name, Title">
+                </div>
+                <div>
+                    <label>10. Date</label>
+                    <input type="text" id="acceptedDate" placeholder="MM/DD/YYYY">
+                </div>
+            </div>
         </div>
         
-        <div style="text-align: center; margin: 30px 0;">
-            <button class="btn" onclick="generateAHA()">🔄 Generate AHA</button>
-            <button class="btn btn-download" onclick="downloadPDF()">📥 Download ENG Form 6206 (PDF)</button>
+        <h3>Hazard Analysis Table (ENG Form 6206)</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width:50px">Step#</th>
+                    <th style="width:150px">Work Step</th>
+                    <th style="width:200px">Potential Hazards</th>
+                    <th style="width:200px">Controls (Reduces to L)</th>
+                    <th style="width:60px">RAC</th>
+                </tr>
+            </thead>
+            <tbody id="ahaTable">
+                <tr><td colspan="5" style="text-align:center;padding:30px;color:#888;">👆 Select an activity above to automatically generate AHA steps</td></tr>
+            </tbody>
+        </table>
+        
+        <div style="text-align:center;margin:30px 0;">
+            <button class="btn" onclick="loadActivity(document.querySelector('select').value)">🔄 Generate AHA</button>
+            <button class="btn btn-green" onclick="downloadPDF()">📥 Download PDF</button>
         </div>
         
         <div class="footer">
             <p>Reference: EM 385-1-1 (2024) | Generated by EM385Templates.com</p>
-            <p>This form matches ENG Form 6206 (Sep 2024) format for USACE submittal</p>
+            <p>This format matches ENG Form 6206 for USACE submittal</p>
         </div>
     </div>
     
     <script>
+        // AHA Data - All with controls that reduce to L
         const ahaData = {
-            'excavation': [
-                {step:'1',work:'Contact 811 utility locate service',hazard:'Striking underground utilities',control:'Call 811; verify marked; tolerance zone',rac:'L'},
-                {step:'2',work:'Perform soil assessment (GMM)',hazard:'Cave-in, soil failure',control:'Competent person classifies soil; daily inspection',rac:'L'},
-                {step:'3',work:'Install trench box/shoring',hazard:'Cave-in during installation',control:'Install shoring BEFORE entry; OSHA rated',rac:'L'},
-                {step:'4',work:'Excavate using equipment',hazard:'Cave-in, struck-by, rollover',control:'Spoil pile 2ft+; safe distance; PPE',rac:'L'},
-                {step:'5',work:'Workers enter excavation',hazard:'Cave-in, falls',control:'Trench box/sloped; ladder within 25ft',rac:'L'},
-                {step:'6',work:'Monitor atmospheric',hazard:'Oxygen deficiency, toxic atmosphere',control:'Air testing >4ft; ventilation; gas monitor',rac:'L'},
-                {step:'7',work:'Backfill excavation',hazard:'Struck-by equipment',control:'Workers exit first; spotter required',rac:'L'}
-            ],
-            'scaffolding': [
+            'excavation': { name: 'Excavation - Trenching & Shoring', steps: [
+                {step:'1',work:'Contact 811 utility locate',hazard:'Striking underground utilities',control:'Call 811; verify marked; tolerance zone',rac:'L'},
+                {step:'2',work:'Soil assessment (GMM)',hazard:'Cave-in, soil failure',control:'Competent person classifies soil',rac:'L'},
+                {step:'3',work:'Install trench box/shoring',hazard:'Cave-in during setup',control:'Install before workers enter',rac:'L'},
+                {step:'4',work:'Excavate with equipment',hazard:'Cave-in, struck-by',control:'Spoil pile 2ft+; safe distance',rac:'L'},
+                {step:'5',work:'Workers enter excavation',hazard:'Cave-in, falls',control:'Trench box; ladder within 25ft',rac:'L'},
+                {step:'6',work:'Monitor atmosphere',hazard:'Oxygen deficiency',control:'Air testing; ventilation',rac:'L'},
+                {step:'7',work:'Backfill',hazard:'Struck-by equipment',control:'Workers exit first; spotter',rac:'L'}
+            ]},
+            'scaffolding': { name: 'Scaffolding - Mobile & Fixed', steps: [
                 {step:'1',work:'Setup scaffold area',hazard:'Struck-by, trips',control:'Clear area; designated paths',rac:'L'},
-                {step:'2',work:'Assemble base sections',hazard:'Pinch points, strain',control:'Proper lifting; gloves',rac:'L'},
-                {step:'3',work:'Install planking',hazard:'Falls from height',control:'100% planked; secured',rac:'L'},
+                {step:'2',work:'Assemble base sections',hazard:'Pinch points',control:'Proper lifting; gloves',rac:'L'},
+                {step:'3',work:'Install planking',hazard:'Falls',control:'100% planked; secured',rac:'L'},
                 {step:'4',work:'Install guardrails',hazard:'Falls during install',control:'Safe surface OR PFAS',rac:'L'},
                 {step:'5',work:'Inspect scaffold',hazard:'Structural failure',control:'Competent person; green tag',rac:'L'},
-                {step:'6',work:'Tag scaffold',hazard:'Unsafe scaffold use',control:'Green/Red tag system',rac:'L'}
-            ],
-            'electrical': [
+                {step:'6',work:'Tag scaffold',hazard:'Unsafe use',control:'Green/Red tag',rac:'L'}
+            ]},
+            'electrical': { name: 'Electrical Work', steps: [
                 {step:'1',work:'De-energize circuits',hazard:'Electrocution',control:'Lockout/Tagout; verified',rac:'L'},
-                {step:'2',work:'Test absence of voltage',hazard:'Electrocution',control:'Rated tester; verify',rac:'L'},
-                {step:'3',work:'Install grounds',hazard:'Shock, energization',control:'Ground before energize',rac:'L'},
-                {step:'4',work:'Work on energized (if req)',hazard:'Electrocution',control:'Qualified person; PPE; permit',rac:'L'},
-                {step:'5',work:'Remove grounds, restore',hazard:'Electrocution',control:'All clear; reverse order',rac:'L'}
-            ],
-            'confined-space': [
-                {step:'1',work:'Identify confined space',hazard:'Unrecognized hazard',control:'Competent person; signage',rac:'L'},
-                {step:'2',work:'Atmospheric testing',hazard:'Toxic, O2 deficiency',control:'Test O2/LEL/CO/H2S',rac:'L'},
-                {step:'3',work:'Ventilate space',hazard:'Atmospheric hazards',control:'Continuous ventilation',rac:'L'},
-                {step:'4',work:'Establish communication',hazard:'Emergency comm',control:'Voice/radio; rescue plan',rac:'L'},
-                {step:'5',work:'Post attendant',hazard:'Unmonitored hazard',control:'Dedicated attendant',rac:'L'},
-                {step:'6',work:'Entry and work',hazard:'Multiple hazards',control:'PPE; permits; controls',rac:'L'}
-            ],
-            'crane': [
-                {step:'1',work:'Site assessment',hazard:'Tip-over, overhead',control:'Ground test; clear overhead',rac:'L'},
-                {step:'2',work:'Setup crane',hazard:'Tip-over, struck-by',control:'Outriggers; level; tagged',rac:'L'},
-                {step:'3',work:'Rig load',hazard:'Struck-by, pinch',control:'Qualified rigger; inspection',rac:'L'},
-                {step:'4',work:'Signal operator',hazard:'Struck-by load',control:'Qualified signal; clear',rac:'L'},
-                {step:'5',work:'Lift and move',hazard:'Struck-by, tip-over',control:'Clear swing; load chart',rac:'L'},
-                {step:'6',work:'Set and secure load',hazard:'Struck-by, crush',control:'Stable; chocked; tagged',rac:'L'}
-            ],
-            'fall-protection': [
-                {step:'1',work:'Identify fall hazards',hazard:'Falls >6ft',control:'Survey all fall hazards',rac:'L'},
-                {step:'2',work:'Select system',hazard:'Inadequate protection',control:'Guardrail/net/PFAS',rac:'L'},
+                {step:'2',work:'Test voltage',hazard:'Electrocution',control:'Rated tester; verify',rac:'L'},
+                {step:'3',work:'Install grounds',hazard:'Shock',control:'Ground before energize',rac:'L'},
+                {step:'4',work:'Work energized (if req)',hazard:'Electrocution',control:'Qualified person; PPE',rac:'L'},
+                {step:'5',work:'Remove grounds',hazard:'Electrocution',control:'All clear; reverse order',rac:'L'}
+            ]},
+            'confined-space': { name: 'Confined Space Entry', steps: [
+                {step:'1',work:'Identify space',hazard:'Unrecognized',control:'Competent person; signage',rac:'L'},
+                {step:'2',work:'Atmospheric testing',hazard:'Toxic/O2 deficiency',control:'Test O2/LEL/CO/H2S',rac:'L'},
+                {step:'3',work:'Ventilate',hazard:'Atmospheric',control:'Continuous ventilation',rac:'L'},
+                {step:'4',work:'Establish comm',hazard:'Emergency',control:'Voice/radio; rescue plan',rac:'L'},
+                {step:'5',work:'Post attendant',hazard:'Unmonitored',control:'Dedicated attendant',rac:'L'},
+                {step:'6',work:'Entry/work',hazard:'Multiple',control:'PPE; permits',rac:'L'}
+            ]},
+            'crane': { name: 'Crane & Rigging Operations', steps: [
+                {step:'1',work:'Site assessment',hazard:'Tip-over',control:'Ground test; clear overhead',rac:'L'},
+                {step:'2',work:'Set up crane',hazard:'Tip-over',control:'Outriggers; level; tagged',rac:'L'},
+                {step:'3',work:'Rig load',hazard:'Struck-by',control:'Qualified rigger; inspection',rac:'L'},
+                {step:'4',work:'Signal operator',hazard:'Struck-by',control:'Qualified signal; clear',rac:'L'},
+                {step:'5',work:'Lift and move',hazard:'Struck-by',control:'Clear swing; load chart',rac:'L'},
+                {step:'6',work:'Set/secure load',hazard:'Struck-by',control:'Stable; chocked',rac:'L'}
+            ]},
+            'fall-protection': { name: 'Fall Protection Plan', steps: [
+                {step:'1',work:'Identify fall hazards',hazard:'Falls >6ft',control:'Survey all hazards',rac:'L'},
+                {step:'2',work:'Select system',hazard:'Inadequate',control:'Guardrail/net/PFAS',rac:'L'},
                 {step:'3',work:'Install guardrails',hazard:'Falls during install',control:'Safe surface OR PFAS',rac:'L'},
-                {step:'4',work:'Setup PFAS',hazard:'Fall if failure',control:'Harness; lanyard; anchor',rac:'L'},
-                {step:'5',work:'Inspect equipment',hazard:'Equipment failure',control:'Qualified inspection',rac:'L'},
-                {step:'6',work:'Train workers',hazard:'Improper use',control:'Training on use/rescue',rac:'L'}
-            ],
-            'fire-protection': [
-                {step:'1',work:'Identify fire hazards',hazard:'Fire, explosion',control:'Survey; remove hazards',rac:'L'},
-                {step:'2',work:'Hot work permit',hazard:'Uncontrolled fire',control:'Written permit; fire watch',rac:'L'},
-                {step:'3',work:'Setup fire watch',hazard:'Undetected fire',control:'Trained watcher; extinguishers',rac:'L'},
-                {step:'4',work:'Perform hot work',hazard:'Fire, burns',control:'Designated area; PPE',rac:'L'},
+                {step:'4',work:'Setup PFAS',hazard:'Fall',control:'Harness; anchor; lanyard',rac:'L'},
+                {step:'5',work:'Inspect equipment',hazard:'Failure',control:'Qualified inspection',rac:'L'},
+                {step:'6',work:'Train workers',hazard:'Improper use',control:'Training; rescue',rac:'L'}
+            ]},
+            'fire-protection': { name: 'Fire Protection & Hot Work', steps: [
+                {step:'1',work:'Identify fire hazards',hazard:'Fire',control:'Survey; remove hazards',rac:'L'},
+                {step:'2',work:'Hot work permit',hazard:'Fire',control:'Written permit; fire watch',rac:'L'},
+                {step:'3',work:'Setup fire watch',hazard:'Fire',control:'Trained watcher; extinguishers',rac:'L'},
+                {step:'4',work:'Perform hot work',hazard:'Fire/burns',control:'Designated area; PPE',rac:'L'},
                 {step:'5',work:'Fire watch duration',hazard:'Delayed fire',control:'1 hour after; monitor',rac:'L'}
-            ],
-            'traffic': [
-                {step:'1',work:'Identify traffic hazards',hazard:'Struck-by vehicles',control:'Survey traffic patterns',rac:'L'},
-                {step:'2',work:'Develop traffic plan',hazard:'Confusion, accidents',control:'MUTCD compliant; flaggers',rac:'L'},
-                {step:'3',work:'Install signage',hazard:'Struck-by setup',control:'MUTCD signs; high-vis',rac:'L'},
-                {step:'4',work:'Setup flaggers',hazard:'Struck-by vehicles',control:'Trained; PPE; paddle',rac:'L'},
-                {step:'5',work:'Channelize traffic',hazard:'Vehicle intrusion',control:'Barriers; cones; buffer',rac:'L'}
-            ]
+            ]},
+            'traffic': { name: 'Traffic Control', steps: [
+                {step:'1',work:'Identify hazards',hazard:'Struck-by',control:'Survey traffic',rac:'L'},
+                {step:'2',work:'Develop plan',hazard:'Confusion',control:'MUTCD compliant',rac:'L'},
+                {step:'3',work:'Install signage',hazard:'Setup',control:'MUTCD signs; high-vis',rac:'L'},
+                {step:'4',work:'Setup flaggers',hazard:'Struck-by',control:'Trained; PPE; paddle',rac:'L'},
+                {step:'5',work:'Channelize traffic',hazard:'Intrusion',control:'Barriers; cones; buffer',rac:'L'}
+            ]}
         };
         
-        function generateAHA() {
-            const activity = document.getElementById('activitySelect').value;
+        function loadActivity(activity) {
+            const data = ahaData[activity];
             const tbody = document.getElementById('ahaTable');
             const activityInput = document.getElementById('activity');
             
-            if (!activity || !ahaData[activity]) {
-                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:20px;">Select an activity above to generate AHA steps</td></tr>';
+            if (!data) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:30px;color:#888;">👆 Select an activity above to automatically generate AHA steps</td></tr>';
                 return;
             }
             
-            const names = {excavation:'Excavation - Trenching & Shoring',scaffolding:'Scaffolding - Mobile & Fixed',electrical:'Electrical Work',confined-space:'Confined Space Entry',crane:'Crane & Rigging Operations',fall-protection:'Fall Protection Plan',fire-protection:'Fire Protection & Hot Work',traffic:'Traffic Control'};
-            activityInput.value = names[activity];
+            // Set activity name
+            activityInput.value = data.name;
             
-            tbody.innerHTML = ahaData[activity].map(s => `<tr><td>${s.step}</td><td>${s.work}</td><td>${s.hazard}</td><td>${s.control}</td><td><span class="rac-${s.rac}">${s.rac}</span></td></tr>`).join('');
+            // Build table
+            tbody.innerHTML = data.steps.map(s => 
+                `<tr>
+                    <td>${s.step}</td>
+                    <td>${s.work}</td>
+                    <td>${s.hazard}</td>
+                    <td>${s.control}</td>
+                    <td><span class="rac rac-${s.rac}">${s.rac}</span></td>
+                </tr>`
+            ).join('');
         }
         
         async function downloadPDF() {
             const { PDFDocument, rgb, StandardFonts } = PDFLib;
             const pdfDoc = await PDFDocument.create();
-            const page = pdfDoc.addPage([612, 792]); // Letter size
-            const timesRoman = await pdfDoc.embedFont(StandardFonts.TimesRoman);
-            const timesRomanBold = await pdfDoc.embedFont(StandardFonts.TimesRomanBold);
+            const page = pdfDoc.addPage([612, 792]);
+            const font = await pdfDoc.embedFont(StandardFonts.TimesRoman);
+            const fontBold = await pdfDoc.embedFont(StandardFonts.TimesRomanBold);
             
-            // Colors
-            const darkBlue = rgb(0.1, 0.21, 0.36);
-            const orange = rgb(0.93, 0.56, 0.21);
-            
-            // Title
-            page.drawText('ACTIVITY HAZARD ANALYSIS (AHA)', { x: 150, y: 750, size: 14, font: timesRomanBold, color: darkBlue });
-            page.drawText('ENG FORM 6206 (Sep 2024)', { x: 220, y: 730, size: 10, font: timesRoman });
-            page.drawText('Reference: EM 385-1-1 (2024)', { x: 230, y: 715, size: 9, font: timesRoman });
-            
-            // Get form data
+            // Get data
             const activity = document.getElementById('activity').value || '';
             const contractNum = document.getElementById('contractNum').value || '';
             const projectName = document.getElementById('projectName').value || '';
@@ -264,85 +262,60 @@
             const acceptedBy = document.getElementById('acceptedBy').value || '';
             const acceptedDate = document.getElementById('acceptedDate').value || '';
             
-            // Header fields
+            // Title
+            page.drawText('ACTIVITY HAZARD ANALYSIS (AHA)', { x: 150, y: 750, size: 14, font: fontBold, color: rgb(0.1, 0.21, 0.36) });
+            page.drawText('ENG FORM 6206 (Sep 2024)', { x: 220, y: 730, size: 10, font: font });
+            page.drawText('Reference: EM 385-1-1 (2024)', { x: 230, y: 715, size: 9, font: font });
+            
             let y = 680;
-            page.drawText('1. ACTIVITY/WORK TASK:', { x: 20, y, size: 9, font: timesRomanBold });
-            page.drawText(contractNum ? contractNum : '', { x: 350, y, size: 9 });
-            page.drawText('2. CONTRACT NUMBER:', { x: 350, y, size: 9, font: timesRomanBold });
+            const addLine = (text, x, size=9, bold=false) => page.drawText(text, { x, y, size, font: bold ? fontBold : font });
             
-            y -= 15;
-            page.drawText(activity, { x: 20, y, size: 10 });
+            addLine('1. ACTIVITY/WORK TASK:', 20, 9, true); addLine('2. CONTRACT NUMBER:', 350, 9, true);
+            y -= 15; addLine(activity, 20, 10); addLine(contractNum, 350, 10);
             y -= 20;
             
-            page.drawText('3. PROJECT NAME:', { x: 20, y, size: 9, font: timesRomanBold });
-            page.drawText('4. PROJECT LOCATION:', { x: 350, y, size: 9, font: timesRomanBold });
-            y -= 15;
-            page.drawText(projectName || '', { x: 20, y, size: 10 });
-            page.drawText(projectLocation || '', { x: 350, y, size: 10 });
+            addLine('3. PROJECT NAME:', 20, 9, true); addLine('4. PROJECT LOCATION:', 350, 9, true);
+            y -= 15; addLine(projectName, 20, 10); addLine(projectLocation, 350, 10);
             y -= 20;
             
-            page.drawText('5. CONTRACTOR NAME & ADDRESS:', { x: 20, y, size: 9, font: timesRomanBold });
-            page.drawText('6. CONTRACTOR PHONE:', { x: 350, y, size: 9, font: timesRomanBold });
-            y -= 15;
-            page.drawText(contractorName || '', { x: 20, y, size: 10 });
-            page.drawText(contractorPhone || '', { x: 350, y, size: 10 });
+            addLine('5. CONTRACTOR:', 20, 9, true); addLine('6. PHONE:', 350, 9, true);
+            y -= 15; addLine(contractorName, 20, 10); addLine(contractorPhone, 350, 10);
             y -= 20;
             
-            page.drawText('7. AHA PREPARED BY:', { x: 20, y, size: 9, font: timesRomanBold });
-            page.drawText('8. DATE:', { x: 200, y, size: 9, font: timesRomanBold });
-            page.drawText('9. AHA ACCEPTED BY:', { x: 350, y, size: 9, font: timesRomanBold });
-            page.drawText('10. DATE:', { x: 530, y, size: 9, font: timesRomanBold });
+            addLine('7. PREPARED BY:', 20, 9, true); addLine('8. DATE:', 200, 9, true);
+            addLine('9. ACCEPTED BY:', 350, 9, true); addLine('10. DATE:', 530, 9, true);
             y -= 15;
-            page.drawText(preparedBy || '', { x: 20, y, size: 10 });
-            page.drawText(preparedDate || '', { x: 200, y, size: 10 });
-            page.drawText(acceptedBy || '', { x: 350, y, size: 10 });
-            page.drawText(acceptedDate || '', { x: 530, y, size: 10 });
-            y -= 25;
+            addLine(preparedBy, 20, 10); addLine(preparedDate, 200, 10);
+            addLine(acceptedBy, 350, 10); addLine(acceptedDate, 530, 10);
+            y -= 30;
             
             // Table header
-            const tableTop = y;
-            page.drawRectangle({ x: 20, y: y - 20, width: 572, height: 20, color: darkBlue });
-            page.drawText('Step #', { x: 25, y: y - 15, size: 8, font: timesRomanBold, color: rgb(1,1,1) });
-            page.drawText('Work Step', { x: 60, y: y - 15, size: 8, font: timesRomanBold, color: rgb(1,1,1) });
-            page.drawText('Potential Hazards', { x: 200, y: y - 15, size: 8, font: timesRomanBold, color: rgb(1,1,1) });
-            page.drawText('Controls', { x: 370, y: y - 15, size: 8, font: timesRomanBold, color: rgb(1,1,1) });
-            page.drawText('RAC', { x: 545, y: y - 15, size: 8, font: timesRomanBold, color: rgb(1,1,1) });
+            page.drawRectangle({ x: 20, y: y-20, width: 572, height: 20, color: rgb(0.1, 0.21, 0.36) });
+            addLine('Step#', 25, 8); addLine('Work Step', 60, 8); addLine('Hazards', 200, 8); addLine('Controls', 370, 8); addLine('RAC', 545, 8);
             y -= 25;
             
-            // Get AHA steps
-            const activityKey = document.getElementById('activitySelect').value;
-            const steps = ahaData[activityKey] || [];
+            // Get steps
+            const activityKey = document.getElementById('activitySelect')?.value || Object.keys(ahaData)[0];
+            const data = ahaData[activityKey];
+            if (data) {
+                data.steps.forEach((s, i) => {
+                    let racColor = rgb(0.22, 0.63, 0.41); // L
+                    page.drawRectangle({ x: 20, y: y-18, width: 572, height: 18, color: i%2===0 ? rgb(0.95,0.95,0.95) : rgb(1,1,1) });
+                    page.drawRectangle({ x: 540, y: y-18, width: 52, height: 18, color: racColor });
+                    addLine(s.step, 25, 8); addLine(s.work.substring(0,25), 60, 7);
+                    addLine(s.hazard.substring(0,30), 200, 7); addLine(s.control.substring(0,30), 370, 6);
+                    addLine(s.rac, 555, 9, true);
+                    y -= 20;
+                });
+            }
             
-            steps.forEach((s, i) => {
-                if (y < 100) return; // Stop if page full
-                
-                // RAC color
-                let racColor = rgb(0.9, 0.9, 0.9);
-                if (s.rac === 'E') racColor = rgb(0.9, 0.24, 0.24);
-                else if (s.rac === 'H') racColor = rgb(0.87, 0.42, 0.13);
-                else if (s.rac === 'M') racColor = rgb(0.84, 0.62, 0.18);
-                else if (s.rac === 'L') racColor = rgb(0.22, 0.63, 0.41);
-                
-                page.drawRectangle({ x: 20, y: y - 18, width: 572, height: 18, color: i % 2 === 0 ? rgb(0.95, 0.95, 0.95) : rgb(1,1,1) });
-                page.drawRectangle({ x: 540, y: y - 18, width: 52, height: 18, color: racColor });
-                
-                page.drawText(s.step, { x: 25, y: y - 5, size: 8 });
-                page.drawText(s.work.substring(0, 25), { x: 60, y: y - 5, size: 7 });
-                page.drawText(s.hazard.substring(0, 30), { x: 200, y: y - 5, size: 7 });
-                page.drawText(s.control.substring(0, 30), { x: 370, y: y - 5, size: 6 });
-                page.drawText(s.rac, { x: 555, y: y - 5, size: 9, font: timesRomanBold, color: rgb(1,1,1) });
-                
-                y -= 20;
-            });
-            
-            // Footer
-            page.drawText('Reference: EM 385-1-1 (2024) | Generated by EM385Templates.com', { x: 150, y: 30, size: 8, font: timesRoman });
+            page.drawText('Generated by EM385Templates.com', { x: 180, y: 30, size: 8, font });
             
             const pdfBytes = await pdfDoc.save();
             const blob = new Blob([pdfBytes], { type: 'application/pdf' });
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
-            link.download = 'ENG_Form_6206_AHA.pdf';
+            link.download = 'AHA_ENG_Form_6206.pdf';
             link.click();
         }
     </script>
